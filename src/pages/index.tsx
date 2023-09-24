@@ -1,9 +1,16 @@
+import React, { useState } from "react";
 import { products } from "@/mocks/products";
 import { ShoppingCart, MagnifyingGlass } from "@phosphor-icons/react";
 import Image from "next/image";
 
 export default function Home() {
   const productsList = products;
+  const [filter, setFilter] = useState('');
+
+  const filteredProducts = productsList.filter((product) =>
+  product.title.toLowerCase()
+  .includes(filter.toLowerCase())
+  );
 
   return (
     <div className="h-screen font-inter ">
@@ -25,13 +32,14 @@ export default function Home() {
             type="text"
             placeholder="Pesquisar por nome"
             className="w-32 h-4 px-1 py-2 ml-2 bg-colorBg  text-xs focus:outline-none"
+            onChange={(e) => setFilter(e.target.value)}
           />
           <MagnifyingGlass size={16} color="#9ca3af" />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 ">
-        {productsList.map((product) => (
+        {filteredProducts.map((product) => (
           <div
             className="w-36 h-44 mx-auto text-center border-solid rounded-md border border-zinc-300 flex flex-col justify-items-start items-center"
             key={product.id}
