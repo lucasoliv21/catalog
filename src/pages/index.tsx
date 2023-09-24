@@ -41,8 +41,9 @@ export default function Home() {
               width={144}
               height={96}
               alt="Foto do produto"
+              className="rounded-t-md max-w-full max-h-32 object-cover"
             />
-            <div className="text-10px font-bold py-1">{product.title}</div>
+            <div className="text-10px font-bold py-0.5">{product.title}</div>
             <div className=" px-1 text-10px font-bold flex items-center justify-between w-full">
               <div>R$ {product.price}</div>
               <div className="bg-zinc-200 w-6 h-6 flex items-center justify-center rounded-full">
