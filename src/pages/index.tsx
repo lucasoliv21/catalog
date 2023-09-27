@@ -2,15 +2,31 @@ import React, { useState } from "react";
 import { products } from "@/mocks/products";
 import { ShoppingCart, MagnifyingGlass } from "@phosphor-icons/react";
 import Image from "next/image";
+import Link from "next/link";
+import { useCart } from "./CartContext";
+
+interface CartItem {
+  id: number;
+  title: string;
+  price: number;
+  imageSrc: string;
+  quantity: number;
+}
 
 export default function Home() {
   const productsList = products;
   const [filter, setFilter] = useState('');
+  const { addToCart } = useCart();
+
 
   const filteredProducts = productsList.filter((product) =>
-  product.title.toLowerCase()
-  .includes(filter.toLowerCase())
+    product.title.toLowerCase()
+    .includes(filter.toLowerCase())
   );
+
+  const handleAddToCart = (product: CartItem) => {
+    addToCart(product); 
+  };
 
   return (
     <div className="h-screen font-inter ">
@@ -19,9 +35,10 @@ export default function Home() {
           <a href="" className="px-3 text-xs font-semibold ">
             Catálogo
           </a>
-          <a href="">
-            <ShoppingCart size={20} weight="fill" />
-          </a>
+          <Link href="/cart" passHref className='flex items-center justify-center bg-transparent border-0'>
+              <ShoppingCart size={20} weight='fill' />
+
+          </Link>
         </nav>
       </header>
 
@@ -54,9 +71,11 @@ export default function Home() {
             <div className="text-10px font-bold py-0.5">{product.title}</div>
             <div className=" px-1 text-10px font-bold flex items-center justify-between w-full">
               <div>R$ {product.price}</div>
-              <div className="bg-zinc-200 w-6 h-6 flex items-center justify-center rounded-full">
+              <button 
+                onClick={() => handleAddToCart(product)}
+                className="bg-zinc-200 w-6 h-6 flex items-center justify-center rounded-full border-0">
                 <ShoppingCart size={16} weight="fill" />
-              </div>
+              </button>
             </div>
           </div>
         ))}
