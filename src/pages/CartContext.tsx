@@ -26,7 +26,15 @@ export function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   const addToCart = (product: CartItem) => {
-    setCart([...cart, product]);
+    const existingProductIndex = cart.findIndex((item) => item.id === product.id);
+
+    if (existingProductIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingProductIndex].quantity += product.quantity;
+      setCart(updatedCart);
+    } else {
+      setCart([...cart, product]);
+    }
   };
 
   const removeFromCart = (productId: number) => {
