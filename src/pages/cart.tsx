@@ -4,6 +4,7 @@ import { ShoppingCart } from '@phosphor-icons/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from './CartContext';
+import { createWhatsAppMessage } from '@/utils/utils';
 
 interface CartProps {
 }
@@ -17,6 +18,8 @@ interface CartItem {
 
 export default function Cart({}: CartProps) {
   const { cart, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
+  const whatsappMessage = createWhatsAppMessage(cart);
+  const whatsappLink = `https://api.whatsapp.com/send?phone=NUMERO_AQUI&text=${whatsappMessage}`;
 
   const handleIncreaseQuantity = (productId: number) => {
     increaseQuantity(productId);
@@ -79,7 +82,7 @@ export default function Cart({}: CartProps) {
                   </button>
                     <span className="px-2">{item.quantity}</span>
                   <button
-                    onClick={() => handleDecreaseQuantity(item.id)} // Diminui a quantidade ao clicar no botão "-"
+                    onClick={() => handleDecreaseQuantity(item.id)} 
                     className="pr-2 py-1 bg-gray-300 rounded-r"
                   >
                     -
@@ -100,9 +103,12 @@ export default function Cart({}: CartProps) {
           <div className="font-bold">R$ {calculateTotal()}</div>
         </div>
         <div className="flex items-center h-full">
-          <button className="w-32 h-14 bg-emerald-300 font-bold px-4 rounded-md text-xs">
-            Realizar pedido
-          </button>
+          <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
+            <button 
+            className="w-32 h-14 bg-emerald-300 font-bold px-4 rounded-md text-xs">
+              Realizar pedido
+            </button>
+          </a>
         </div>
       </div>
     </div>
