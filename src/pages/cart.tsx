@@ -16,7 +16,15 @@ interface CartItem {
 }
 
 export default function Cart({}: CartProps) {
-  const { cart } = useCart(); 
+  const { cart, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
+
+  const handleIncreaseQuantity = (productId: number) => {
+    increaseQuantity(productId);
+  };
+
+  const handleDecreaseQuantity = (productId: number) => {
+    decreaseQuantity(productId);
+  };
 
 
   const calculateTotal = () => {
@@ -52,17 +60,35 @@ export default function Cart({}: CartProps) {
               />
               <div className="flex flex-col justify-between w-full">
                 <div className="px-2 text-xs">{item.title}</div>
+                <div className='flex justify-end'>
+                  <button
+                  onClick={() => removeFromCart(item.id)} 
+                    className="w-20 h-8 bg-red-500 font-bold px-4 pl-auto rounded-md text-xs text-neutral-50"
+                    >
+                      Remover
+                  </button>
+                </div>  
                 <div className="flex justify-between items-center">
                   <div className="px-2 text-xs font-bold">R$ {item.price}</div>
                   <div className="flex items-center">
-                    <button className="py-1 bg-gray-300 rounded-l">+</button>
+                  <button
+                    onClick={() => handleIncreaseQuantity(item.id)} // Aumenta a quantidade ao clicar no botão "+"
+                    className="py-1 bg-gray-300 rounded-l"
+                  >
+                    +
+                  </button>
                     <span className="px-2">{item.quantity}</span>
-                    <button className="pr-2 py-1 bg-gray-300 rounded-r">-</button>
-                  </div>
+                  <button
+                    onClick={() => handleDecreaseQuantity(item.id)} // Diminui a quantidade ao clicar no botão "-"
+                    className="pr-2 py-1 bg-gray-300 rounded-r"
+                  >
+                    -
+                  </button>                  
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+        ))}
         </>
       ) : (
         <div className="text-center">O carrinho está vazio.</div>

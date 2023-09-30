@@ -12,6 +12,8 @@ interface CartContextType {
   cart: CartItem[];
   addToCart: (product: CartItem) => void;
   removeFromCart: (productId: number) => void;
+  increaseQuantity: (productId: number) => void;
+  decreaseQuantity: (productId: number) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -32,8 +34,28 @@ export function CartProvider({ children }: CartProviderProps) {
     setCart(updatedCart);
   };
 
+  const increaseQuantity = (productId: number) => {
+    const updatedCart = cart.map((product) => {
+      if (product.id === productId) {
+        return { ...product, quantity: product.quantity + 1 };
+      }
+      return product;
+    });
+    setCart(updatedCart);
+  };
+
+  const decreaseQuantity = (productId: number) => {
+    const updatedCart = cart.map((product) => {
+      if (product.id === productId && product.quantity > 1) {
+        return { ...product, quantity: product.quantity - 1 };
+      }
+      return product;
+    });
+    setCart(updatedCart);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, increaseQuantity, decreaseQuantity }}>
       {children}
     </CartContext.Provider>
   );
