@@ -26,14 +26,14 @@ export function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   const addToCart = (product: CartItem) => {
-    const existingProductIndex = cart.findIndex((item) => item.id === product.id);
-
-    if (existingProductIndex !== -1) {
-      const updatedCart = [...cart];
-      updatedCart[existingProductIndex].quantity += product.quantity;
+    const existingProduct = cart.find(item => item.id === product.id);
+    if (existingProduct) {
+      const updatedCart = cart.map(item =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      );
       setCart(updatedCart);
     } else {
-      setCart([...cart, product]);
+      setCart([...cart, { ...product, quantity: 1 }]);
     }
   };
 

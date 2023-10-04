@@ -3,7 +3,7 @@ import React from 'react';
 import { ShoppingCart } from '@phosphor-icons/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCart } from './CartContext';
+import { useCart } from '../context/CartContext';
 import { createWhatsAppMessage } from '@/utils/utils';
 
 interface CartProps {
@@ -19,7 +19,7 @@ interface CartItem {
 export default function Cart({}: CartProps) {
   const { cart, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
   const whatsappMessage = createWhatsAppMessage(cart);
-  const whatsappLink = `https://api.whatsapp.com/send?phone=NUMERO_AQUI&text=${whatsappMessage}`;
+  const whatsappLink = `https://api.whatsapp.com/send?phone=5584998662011&text=${whatsappMessage}`;
 
   const handleIncreaseQuantity = (productId: number) => {
     increaseQuantity(productId);
@@ -38,12 +38,12 @@ export default function Cart({}: CartProps) {
     <div className="h-screen font-inter font-semibold">
       <header className="h-9 w-full">
         <nav className="flex flex-auto justify-between items-center">
-          <Link href="/" className="px-3 text-xs font-semibold">
+          <Link href="/" className="px-3 text-sm font-semibold">
             Catálogo
           </Link>
           <Link href="/cart">
             
-              <ShoppingCart size={20} weight="fill" />
+              <ShoppingCart size={24} weight="fill" />
             
           </Link>
         </nav>
